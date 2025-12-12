@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- SECTION B1-1-1: Meta Tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="src/output.css" rel="stylesheet" />
+    <title>Weather Forecast App</title>
+
+    <!-- Font Awesome (uncomment if you want icons to load) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <!-- SECTION B1-1-2: External CSS Libraries -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+    <!-- SECTION B1-1-3: Custom CSS -->
+    <!-- <link rel="stylesheet" href="src/input.css"> -->
+
+    <!-- SECTION B1-1-4: Tailwind Config -->
+    <!-- <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                    }
+                }
+            }
+        }
+    </script> -->
+</head>
+
+<body class="min-h-screen transition-all duration-1000 bg-linear-to-br from-blue-400 via-blue-500 to-blue-600" id="app-body">
+    
+    <!-- SECTION B1-2: Header Section -->
+    <header class="bg-white/10 backdrop-blur-lg shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- SECTION B1-2-1: Logo/Title -->
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-cloud-sun text-3xl text-yellow-300"></i>
+                    <h1 class="text-2xl md:text-3xl font-bold text-white">WeatherApp</h1>
+                </div>
+                
+                <!-- SECTION B1-2-2: Enhanced Temperature Unit Toggle -->
+                <div class="flex items-center space-x-3">
+                    <span class="text-white font-medium temp-unit-label active" id="celsiusLabel">°C</span>
+                    <label class="temperature-toggle">
+                        <input type="checkbox" id="tempUnitToggle" />
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="text-white font-medium temp-unit-label inactive" id="fahrenheitLabel">°F</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+   <!-- SECTION B1-3: Enhanced Main Content Container -->
+<main class="container mx-auto px-4 py-8">
+    
+    <!-- SECTION H1-1-1: Hero Welcome Section -->
+    <section class="text-center mb-12">
+        <div class="max-w-4xl mx-auto">
+            <!-- Hero Title -->
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
+                Get Weather Updates
+                <span class="block text-yellow-300 text-3xl md:text-5xl mt-2">Anywhere, Anytime</span>
+            </h1>
+            
+            <!-- Hero Subtitle -->
+            <p class="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
+                Discover real-time weather conditions and 5-day forecasts for any city worldwide
+            </p>
+            
+            <!-- Weather Stats Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-yellow-300">24/7</div>
+                    <div class="text-sm text-white/80">Live Updates</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-blue-300">5-Day</div>
+                    <div class="text-sm text-white/80">Forecast</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-green-300">200K+</div>
+                    <div class="text-sm text-white/80">Cities</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-purple-300">GPS</div>
+                    <div class="text-sm text-white/80">Location</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION H1-1-2: Enhanced Search Section -->
+    <section class="mb-12">
+        <div class="max-w-2xl mx-auto">
+            <!-- Search Title -->
+            <h2 class="text-2xl md:text-3xl font-bold text-white text-center mb-6">
+                <i class="fas fa-search mr-3 text-yellow-300"></i>
+                Search Weather by City
+            </h2>
+            
+            <div class="relative">
+                <!-- Enhanced Search Input -->
+                <div class="flex space-x-2">
+                    <div class="relative flex-1">
+                        <input 
+                            type="text" 
+                            id="citySearchInput"
+                            placeholder="Enter city name (e.g., London, New York, Tokyo...)" 
+                            class="w-full px-6 py-4 pr-14 text-gray-700 bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl focus:outline-none focus:ring-4 focus:ring-yellow-300 transition-all duration-300 text-lg border-2 border-white/20"
+                        />
+                        <button 
+                            id="searchButton"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-800 transition-colors p-2 rounded-lg hover:bg-blue-50"
+                        >
+                            <i class="fas fa-search text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Enhanced Current Location Button -->
+                    <button 
+                        id="currentLocationBtn"
+                        class="px-6 py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl shadow-2xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 flex items-center space-x-2 btn-hover-scale"
+                    >
+                        <i class="fas fa-location-arrow text-lg"></i>
+                        <span class="hidden md:inline font-semibold">My Location</span>
+                    </button>
+                </div>
+                
+                <!-- Search Suggestions -->
+                <div class="mt-4 text-center">
+                    <p class="text-white/70 text-sm mb-3">Popular searches:</p>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <button class="popular-city-btn px-4 py-2 bg-white/10 text-white rounded-full text-sm hover:bg-white/20 transition-all duration-300" data-city="London">London</button>
+                        <button class="popular-city-btn px-4 py-2 bg-white/10 text-white rounded-full text-sm hover:bg-white/20 transition-all duration-300" data-city="New York">New York</button>
+                        <button class="popular-city-btn px-4 py-2 bg-white/10 text-white rounded-full text-sm hover:bg-white/20 transition-all duration-300" data-city="Tokyo">Tokyo</button>
+                        <button class="popular-city-btn px-4 py-2 bg-white/10 text-white rounded-full text-sm hover:bg-white/20 transition-all duration-300" data-city="Paris">Paris</button>
+                        <button class="popular-city-btn px-4 py-2 bg-white/10 text-white rounded-full text-sm hover:bg-white/20 transition-all duration-300" data-city="Sydney">Sydney</button>
+                    </div>
+                </div>
+                
+               <!-- Recent Searches Dropdown (FIXED - NO GAP) -->
+<div id="recentSearchesDropdown" class="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl hidden z-40 border border-white/20" style="margin-top: -1px;">
+    <div class="p-4">
+        <h4 class="text-sm font-semibold text-gray-600 mb-3 px-2 flex items-center">
+            <i class="fas fa-history mr-2 text-blue-600"></i>
+            Recent Searches
+        </h4>
+        <ul id="recentSearchesList" class="space-y-1">
+            <!-- Recent searches will be populated here -->
+        </ul>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION H1-1-3: Features Showcase -->
+    <section class="mb-12">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-white text-center mb-8">
+                Why Choose Our Weather App?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 card-hover">
+                    <div class="text-4xl mb-4">
+                        <i class="fas fa-bolt text-yellow-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Lightning Fast</h3>
+                    <p class="text-white/80">Get instant weather updates with our optimized API integration</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 card-hover">
+                    <div class="text-4xl mb-4">
+                        <i class="fas fa-mobile-alt text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Mobile Friendly</h3>
+                    <p class="text-white/80">Perfect responsive design that works on all devices</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 card-hover">
+                    <div class="text-4xl mb-4">
+                        <i class="fas fa-shield-alt text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Reliable Data</h3>
+                    <p class="text-white/80">Powered by OpenWeatherMap's trusted weather data</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION B1-4: Current Weather Display (existing, unchanged) -->
+    <section id="currentWeatherSection" class="mb-8 hidden">
+        <!-- Your existing current weather section stays the same -->
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white/20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 md:p-8">
+                
+                <!-- SECTION B1-4-1: Current Weather Header -->
+                <div class="text-center mb-6">
+                    <h2 id="currentCity" class="text-2xl md:text-3xl font-bold text-white mb-2"></h2>
+                    <p id="currentDate" class="text-white/80 text-lg"></p>
+                </div>
+                
+                <!-- SECTION B1-4-2: Main Weather Info -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    
+                    <!-- SECTION B1-4-2-1: Temperature and Icon -->
+                    <div class="text-center">
+                        <div class="flex items-center justify-center space-x-4">
+                            <img id="currentWeatherIcon" src="" alt="" class="w-24 h-24 md:w-32 md:h-32 animate-bounce-slow" />
+                            <div>
+                                <div class="text-6xl md:text-7xl font-bold text-white" id="currentTemp"></div>
+                                <div class="text-xl text-white/90 capitalize" id="currentDescription"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- SECTION B1-4-2-2: Weather Details Grid -->
+                    <div class="grid grid-cols-2 gap-4">
+                        
+                        <!-- SECTION B1-4-2-2-1: Feels Like -->
+                        <div class="bg-white/10 rounded-xl p-4 text-center">
+                            <i class="fas fa-thermometer-half text-2xl text-yellow-300 mb-2"></i>
+                            <div class="text-sm text-white/80">Feels Like</div>
+                            <div class="text-lg font-bold text-white" id="feelsLike"></div>
+                        </div>
+                        
+                        <!-- SECTION B1-4-2-2-2: Humidity -->
+                        <div class="bg-white/10 rounded-xl p-4 text-center">
+                            <i class="fas fa-tint text-2xl text-blue-300 mb-2"></i>
+                            <div class="text-sm text-white/80">Humidity</div>
+                            <div class="text-lg font-bold text-white" id="humidity"></div>
+                        </div>
+                        
+                        <!-- SECTION B1-4-2-2-3: Wind Speed -->
+                        <div class="bg-white/10 rounded-xl p-4 text-center">
+                            <i class="fas fa-wind text-2xl text-gray-300 mb-2"></i>
+                            <div class="text-sm text-white/80">Wind Speed</div>
+                            <div class="text-lg font-bold text-white" id="windSpeed"></div>
+                        </div>
+                        
+                        <!-- SECTION B1-4-2-2-4: Pressure -->
+                        <div class="bg-white/10 rounded-xl p-4 text-center">
+                            <i class="fas fa-gauge-high text-2xl text-green-300 mb-2"></i>
+                            <div class="text-sm text-white/80">Pressure</div>
+                            <div class="text-lg font-bold text-white" id="pressure"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION B1-5: 5-Day Forecast Section (existing, unchanged) -->
+    <section id="forecastSection" class="mb-8 hidden">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-2xl md:text-3xl font-bold text-white text-center mb-6">5-Day Forecast</h3>
+            <div id="forecastContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <!-- Forecast cards will be populated here -->
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+    <!-- SECTION B1-6: Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-black/50 backdrop-blur-sm items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
+            <p class="text-gray-600 font-medium">Loading weather data...</p>
+        </div>
+    </div>
+
+    <!-- SECTION B1-7: Error Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md mx-4 text-center">
+            <div class="text-red-500 text-6xl mb-4">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Oops! Something went wrong</h3>
+            <p id="errorMessage" class="text-gray-600 mb-6"></p>
+            <button id="closeErrorModal" class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                Close
+            </button>
+        </div>
+    </div>
+     
+    <!-- SECTION B1-8: Weather Alert Modal (standard alerts) -->
+    <div id="weatherAlertModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm items-center justify-center z-50 hidden">
+        <div class="bg-linear-to-br from-orange-400 to-red-500 backdrop-blur-lg rounded-2xl shadow-2xl p-6 max-w-md mx-4 border border-white/20 text-white alert-modal-enter">
+            <div class="flex items-center space-x-3 mb-4">
+                <i class="fas fa-exclamation-triangle text-yellow-300 text-2xl animate-pulse"></i>
+                <h3 class="text-xl font-bold">⚠️ Weather Alert</h3>
+            </div>
+            <p id="weatherAlertMessage" class="text-white/90 mb-6 leading-relaxed font-medium"></p>
+            <div class="flex space-x-3">
+                <button id="closeWeatherAlertModal" class="flex-1 px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors backdrop-blur-sm border border-white/30 font-semibold">
+                    Got it!
+                </button>
+                <button id="dismissAlertsBtn" class="flex-1 px-4 py-2 bg-red-600/80 text-white rounded-lg hover:bg-red-700/80 transition-colors font-semibold">
+                    Don't show again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION B1-9: Extreme Temperature Modal (separate from standard weather alerts) -->
+    <div id="extremeAlertModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm items-center justify-center z-50 hidden">
+        <div class="bg-linear-to-r from-red-500 to-orange-500 rounded-xl p-8 max-w-md mx-4 text-center text-white">
+            <div class="text-6xl mb-4">
+                <i class="fas fa-temperature-high animate-pulse"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Extreme Temperature Alert!</h3>
+            <p id="extremeAlertMessage" class="mb-6"></p>
+            <button id="closeExtremeAlertBtn" class="px-6 py-2 bg-white text-red-500 rounded-lg hover:bg-gray-100 transition-colors font-semibold">
+                Got It
+            </button>
+        </div>
+    </div>
+
+    <!-- SECTION B1-10: Script Tags -->
+    <script src="js/storage.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
