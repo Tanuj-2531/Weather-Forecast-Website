@@ -1,5 +1,5 @@
 Here's comprehensive README content for your Weather Forecast Application! 📝
-# 🌤️ Weather Forecast Application
+# 🌤️ Weather Forecast Website
 
 A modern, responsive weather forecast application built with HTML5, CSS3, and Vanilla JavaScript. Get real-time weather data and 5-day forecasts for any city worldwide with a beautiful, intuitive interface.
 
@@ -63,7 +63,7 @@ weather-forecast-app/
 
 ### Step 1: Clone the Repository
 ```bash
-git clone
+git clone https://github.com/Tanuj-2531/Weather-Forecast-Website
 cd Weather-Forecast-Website
 
 Step 2: Get API Key
